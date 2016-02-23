@@ -1,0 +1,17 @@
+BOOK:Dirichlet Boundary Conditions
+NUMBER: 1 CONDITION: Inlet_2D
+CONDTYPE: over lines
+CONDMESHTYPE: over nodes
+END CONDITION
+NUMBER: 2 CONDITION: Outlet_2D
+CONDTYPE: over lines
+CONDMESHTYPE: over nodes
+END CONDITION
+NUMBER: 3 CONDITION: Inlet_3D
+CONDTYPE: over surfaces
+CONDMESHTYPE: over nodes
+END CONDITION
+NUMBER: 4 CONDITION: Outlet_3D
+CONDTYPE: over surfaces
+CONDMESHTYPE: over nodes
+END CONDITION
