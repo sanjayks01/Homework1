@@ -12,59 +12,117 @@ disp('No source term is considered');
 
 addpath('Elements');
 addpath('Model');
+addpath('GiD');
+
+disp('Do you want to use a GiD file (1) or a predefined model (2): ');
+f=input('Type 1 to use a GiD.dat file or 2 to use a predefined model: ');
 
 disp(' ')
 file=input('Type the name of the project:', 's');
-T=load(strcat('elem_',file)); T = T(:,2:end);
-X = load(strcat('nodes_',file)); X = X(:,2:end);
-inlet = load(strcat('inlet_',file,'.dat'))';
-outlet = load(strcat('outlet_',file,'.dat'))';
+
+if f==2
+    
+    T=load(strcat('elem_',file)); T = T(:,2:end);
+    X = load(strcat('nodes_',file)); X = X(:,2:end);
+    inlet = load(strcat('inlet_',file,'.dat'))';
+    outlet = load(strcat('outlet_',file,'.dat'))';
+elseif f==1
+    T=load(strcat(file,'-3.dat')); T = T(:,2:end);
+    X = load(strcat(file,'.dat')); X = X(:,2:end);
+    inlet = load(strcat(file,'-1.dat'))';
+    outlet = load(strcat(file,'-2.dat'))';
+end;
+    
+    
 diffusion = load('prop.dat');
 
 nelem = length(T);
 nnode = length(X);
 dimension=size(X,2);
 nodes=size(T,2);
-switch file
-    case 'C2D3'
-        type=5;
-        [n,wpg,pospg,N,dNdxi] = C2D3 ;
-        [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+switch dimension
+    case 2
+        switch nodes
+            case 3
+                type=5;
+                [n,wpg,pospg,N,dNdxi] = C2D3 ;
+                [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+            case 6
+                type=22;
+                [n,wpg,pospg,N,dNdxi] = C2D6 ;
+                [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+            case 4
+                type=9;
+                [n,wpg,pospg,N,dNdxi] = C2D4 ;
+                [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
 
-    case 'C2D6'
-        type=22;
-        [n,wpg,pospg,N,dNdxi] = C2D6 ;
-        [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+            case 8
+                type=23;
+                [n,wpg,pospg,N,dNdxi] = C2D8 ;
+                [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+        end;
 
-    case 'C2D4'
-        type=9;
-        [n,wpg,pospg,N,dNdxi] = C2D4 ;
-        [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
-        
-    case 'C2D8'
-        type=23;
-        [n,wpg,pospg,N,dNdxi] = C2D8 ;
-        [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
-        
-    case 'C3D4'
-        type=10;
-        [n,wpg,pospg,N,dNdxi] = C3D4 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+    case 3
+        switch nodes
+            case 4
+                type=10;
+                [n,wpg,pospg,N,dNdxi] = C3D4 ;
+                [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
 
-    case 'C3D10'
-        type=24;
-        [n,wpg,pospg,N,dNdxi] = C3D10 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+            case 10
+                type=24;
+                [n,wpg,pospg,N,dNdxi] = C3D10 ;
+                [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
 
-    case 'C3D8'
-        type=12;
-        [n,wpg,pospg,N,dNdxi] = C3D8 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
-        
-    case 'C3D20'
-        type=25;
-        [n,wpg,pospg,N,dNdxi] = C3D20 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+            case 8
+                type=12;
+                [n,wpg,pospg,N,dNdxi] = C3D8 ;
+                [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+
+            case 20
+                type=25;
+                [n,wpg,pospg,N,dNdxi] = C3D20 ;
+                [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+        end;
+%     case 'C2D3'
+%         type=5;
+%         [n,wpg,pospg,N,dNdxi] = C2D3 ;
+%         [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+% 
+%     case 'C2D6'
+%         type=22;
+%         [n,wpg,pospg,N,dNdxi] = C2D6 ;
+%         [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+% 
+%     case 'C2D4'
+%         type=9;
+%         [n,wpg,pospg,N,dNdxi] = C2D4 ;
+%         [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+%         
+%     case 'C2D8'
+%         type=23;
+%         [n,wpg,pospg,N,dNdxi] = C2D8 ;
+%         [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
+%         
+%     case 'C3D4'
+%         type=10;
+%         [n,wpg,pospg,N,dNdxi] = C3D4 ;
+%         [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+% 
+%     case 'C3D10'
+%         type=24;
+%         [n,wpg,pospg,N,dNdxi] = C3D10 ;
+%         [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+% 
+%     case 'C3D8'
+%         type=12;
+%         [n,wpg,pospg,N,dNdxi] = C3D8 ;
+%         [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
+%         
+%     case 'C3D20'
+%         type=25;
+%         [n,wpg,pospg,N,dNdxi] = C3D20 ;
+%         [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
 end;
 
 C = [inlet, ones(length(inlet),1);
