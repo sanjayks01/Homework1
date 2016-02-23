@@ -61,10 +61,9 @@ for i1=1:n
        dNdxi(i1*2,4) = 4.*xi(1,i1);
        dNdxi(i1*2-1,5) = -4.*xi(2,i1);
        %dNdxi(i1*2,5) = -4.*xi(1,i1);
-       dNdxi(i1*2,5) = 4.*(1-xi(1,i1)-2*xi(2,i1));
+       dNdxi(i1*2,5) = -4.*(1-xi(1,i1)-2*xi(2,i1));
        dNdxi(i1*2-1,6) = 4.*xi3 - 4.*xi(1,i1);
-       %dNdxi(i1*2,6) = 4.*xi3 - 4.*xi(2,i1);
-       dNdxi(i1*2,6) = - 4.*xi(1,i1);
+       dNdxi(i1*2,6) = 4.*xi3 - 4.*xi(2,i1);
 end
 end
 %
