@@ -19,7 +19,7 @@ fprintf(f,'%s %8i %s\n','POINTS', nnode ,'float');
 
 	% printing coordinates
 for i1=1:nnode
-           fprintf(f,'%14.8E %14.8E %14.8E\n',X(i1,1:2),0);
+           fprintf(f,'%14.8E %14.8E %14.8E\n',X(i1,1:3));
 end
 fprintf(f,'\n');
 

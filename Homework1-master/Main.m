@@ -10,11 +10,27 @@ disp('This program solves a diffusion equation')
 disp(' ')
 disp('No source term is considered');
 
-addpath('Elements');
-addpath('Model');
-
 disp(' ')
-file=input('Type the name of the project:', 's');
+dimen = input('Type 2: for 2D and Type 3: for 3D analysis  ');
+if dimen == 2
+    elemtype = input('Type 1: for tri and Type 2: for quad  ');
+    ordertype = input('Type 1: for P1 and Type 2: for P2  ');
+    if (elemtype == 1 && ordertype == 1)
+        file = 'C2D3';
+    elseif (elemtype == 1 && ordertype == 2)
+        file = 'C2D6';
+    elseif (elemtype == 2 && ordertype == 1)
+        file = 'C2D4';
+    elseif (elemtype == 2 && ordertype == 2)
+        file = 'C2D8';
+    end
+elseif dimen == 3
+    
+else
+    display('Input error');
+    break;
+end
+
 T=load(strcat('elem_',file)); T = T(:,2:end);
 X = load(strcat('nodes_',file)); X = X(:,2:end);
 inlet = load(strcat('inlet_',file,'.dat'))';
@@ -46,25 +62,6 @@ switch file
         [n,wpg,pospg,N,dNdxi] = C2D8 ;
         [K,f] = CreateMatrix2D(X,T,pospg,wpg,N,dNdxi);
         
-    case 'C3D4'
-        type=10;
-        [n,wpg,pospg,N,dNdxi] = C3D4 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
-
-    case 'C3D10'
-        type=24;
-        [n,wpg,pospg,N,dNdxi] = C3D10 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
-
-    case 'C3D8'
-        type=12;
-        [n,wpg,pospg,N,dNdxi] = C3D8 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
-        
-    case 'C3D20'
-        type=25;
-        [n,wpg,pospg,N,dNdxi] = C3D20 ;
-        [K,f] = CreateMatrix3D(X,T,pospg,wpg,N,dNdxi);
 end;
 
 C = [inlet, ones(length(inlet),1);
@@ -88,6 +85,6 @@ Temp = sol(1:neq);
 if dimension ==2
     geo2D_vtk;
 elseif dimension ==3
-    geo3D_vtk;
+    
 end
 display('Done!')
