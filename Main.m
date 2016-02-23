@@ -14,24 +14,24 @@ addpath('Elements');
 addpath('Model');
 addpath('GiD');
 
-disp('Do you want to use a GiD file (1) or a predefined model (2): ');
-f=input('Type 1 to use a GiD.dat file or 2 to use a predefined model: ');
+% disp('Do you want to use a GiD file (1) or a predefined model (2): ');
+% f=input('Type 1 to use a GiD.dat file or 2 to use a predefined model: ');
 
 disp(' ')
 file=input('Type the name of the project:', 's');
 
-if f==2
+% if f==2
     
     T=load(strcat('elem_',file)); T = T(:,2:end);
     X = load(strcat('nodes_',file)); X = X(:,2:end);
     inlet = load(strcat('inlet_',file,'.dat'))';
     outlet = load(strcat('outlet_',file,'.dat'))';
-elseif f==1
-    T=load(strcat(file,'-3.dat')); T = T(:,2:end);
-    X = load(strcat(file,'.dat')); X = X(:,2:end);
-    inlet = load(strcat(file,'-1.dat'))';
-    outlet = load(strcat(file,'-2.dat'))';
-end;
+% elseif f==1
+%     T=load(strcat(file,'-3.dat')); T = T(:,2:end);
+%     X = load(strcat(file,'.dat')); X = X(:,2:end);
+%     inlet = load(strcat(file,'-1.dat'))';
+%     outlet = load(strcat(file,'-2.dat'))';
+% end;
     
     
 diffusion = load('prop.dat');
