@@ -9,26 +9,25 @@ disp(' ')
 disp('This program solves a diffusion equation')
 disp(' ')
 disp('No source term is considered');
-% Add folders for models, element functions and the models from GiD
+% Add folders
 addpath('Elements');
 addpath('Model');
 addpath('GiD');
-%Input file
+
 disp(' ')
 file=input('Type the name of the project:', 's');
-%Read inputs    
+    
 T=load(strcat('elem_',file)); T = T(:,2:end);
 X = load(strcat('nodes_',file)); X = X(:,2:end);
 inlet = load(strcat('inlet_',file,'.dat'))';
 outlet = load(strcat('outlet_',file,'.dat'))';    
-%Read diffusion    
+    
 diffusion = load('prop.dat');
-%Set number of elements, nodes dimensions and nodes per element.
+
 nelem = length(T);
 nnode = length(X);
 dimension=size(X,2);
 nodes=size(T,2);
-%Build element shape functions and shape functions derivatives
 switch dimension
     case 2
         switch nodes
@@ -66,9 +65,9 @@ switch dimension
                 [n,wpg,pospg,N,dNdxi] = C3D20 ;
         end;
 end;
-%Create stiffness matrices
+
 [K,f] = CreateMatrix(X,T,pospg,wpg,N,dNdxi,dimension);
-%Boundary conditions
+
 C = [inlet, ones(length(inlet),1);
     outlet, zeros(length(outlet),1)];
 
@@ -86,11 +85,10 @@ ftot = [f;b];
 
 sol = Ktot\ftot;
 Temp = sol(1:neq);
-%Read output files
+
 if dimension ==2
     geo2D_vtk;
 elseif dimension ==3
     geo3D_vtk;
 end
-%We have ended the simulation!
 display('Done!')

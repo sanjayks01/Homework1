@@ -1,6 +1,6 @@
-function [Ke,fe] = MatEl(Xe,nnode,pospg,wpg,N,dNdxi) 
+function [Ke,fe] = MatEl2D(Xe,nnode,pospg,wpg,N,dNdxi) 
 % [Ke,fe] = MatEl(Xe,nnode,pospg,wpg,N,Nxi,Neta) 
-% Element stiffness matrix Ke and r.h.s vector fe
+% Element stiffness matrix Ke and r.h.s vector fe for the 2D case
 % 
 % Xe:           nodal coordinates
 % nnode:        number of nodes
