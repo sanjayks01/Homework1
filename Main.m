@@ -28,7 +28,7 @@ nelem = length(T);
 nnode = length(X);
 dimension=size(X,2);
 nodes=size(T,2);
-%Build element shape functions and shape functions derivatives
+%Build element shape functions and shape functions derivatives.
 switch dimension
     case 2
         switch nodes
