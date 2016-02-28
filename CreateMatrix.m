@@ -1,4 +1,4 @@
-function [K,f] = CreateMatrix(X,T,pospg,pespg,N,dNdxi,dimension) 
+function [K,f] = CreateMatrix(X,T,pospg,pespg,N,dNdxi,dimension,source) 
 % Stiffness matrix K and r.h.s vector f 
 % obtained by discretizing a heat equation
 % 
@@ -30,9 +30,9 @@ for ielem = 1:numel
     Xe = X(Te,:); 
     % Element matrices
     if dimension==2
-        [Ke,fe] = MatEl2D(Xe,nen,pospg,pespg,N,dNdxi);
+        [Ke,fe] = MatEl2D(Xe,nen,pospg,pespg,N,dNdxi,source);
     elseif dimension==3
-            [Ke,fe] = MatEl3D(Xe,nen,pospg,pespg,N,dNdxi);
+            [Ke,fe] = MatEl3D(Xe,nen,pospg,pespg,N,dNdxi,source);
     end;
     % Assemble the element matrices
     K(Te,Te) = K(Te,Te) + Ke; 
