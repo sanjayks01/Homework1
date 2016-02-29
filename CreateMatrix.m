@@ -18,7 +18,7 @@ nu = diffusion;
 numnp = size(X,1); 
  
 % Allocate storage
-K = zeros(numnp,numnp); 
+K = sparse(numnp,numnp); 
 f = zeros(numnp,1); 
 
 % Loop on elements
