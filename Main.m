@@ -8,6 +8,7 @@ global diffusion
 disp(' ')
 disp('This program solves a diffusion equation')
 disp(' ')
+disp('No source term considered')
 % Add folders for models, element functions and the models from GiD
 addpath('Elements');
 addpath('Model');
@@ -15,7 +16,6 @@ addpath('GiD');
 %Input file
 disp(' ')
 file=input('Type the name of the project:', 's');
-source=input('Type the value of the source term (constant along the geometry):');
 %Read inputs    
 T=load(strcat('elem_',file)); T = T(:,2:end);
 X = load(strcat('nodes_',file)); X = X(:,2:end);
@@ -67,7 +67,7 @@ switch dimension
         end;
 end;
 %Create stiffness matrices
-[K,f] = CreateMatrix(X,T,pospg,wpg,N,dNdxi,dimension,source);
+[K,f] = CreateMatrix(X,T,pospg,wpg,N,dNdxi,dimension);
 %Boundary conditions
 C = [inlet, ones(length(inlet),1);
     outlet, zeros(length(outlet),1)];
@@ -86,7 +86,7 @@ ftot = [f;b];
 
 sol = Ktot\ftot;
 Temp = sol(1:neq);
-%Read output files
+%Write output files
 if dimension ==2
     geo2D_vtk;
 elseif dimension ==3

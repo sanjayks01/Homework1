@@ -1,4 +1,4 @@
-function [Ke,fe] = MatEl2D(Xe,nnode,pospg,wpg,N,dNdxi,source) 
+function [Ke,fe] = MatEl2D(Xe,nnode,pospg,wpg,N,dNdxi) 
 % [Ke,fe] = MatEl(Xe,nnode,pospg,wpg,N,Nxi,Neta) 
 % Element stiffness matrix Ke and r.h.s vector fe for the 2D case
 % 
@@ -34,6 +34,6 @@ for igaus = 1:ngaus
     Ke = Ke + (nu*(Nx'*Nx+Ny'*Ny))*dvolu; 
     aux = Isopar(Xe,N_igaus);
     %f_igaus = SourceTerm(aux);
-    f_igaus = source;
+    f_igaus = 0;
     fe = fe + N_igaus'*(f_igaus*dvolu);
 end 

@@ -37,6 +37,6 @@ for igaus = 1:ngaus
     Ke = Ke + (nu*(Nx'*Nx+Ny'*Ny+Nz'*Nz))*dvolu; 
     aux = Isopar(Xe,N_igaus);
     %f_igaus = SourceTerm(aux); 
-    f_igaus = source; 
+    f_igaus = 0; 
     fe = fe + N_igaus'*(f_igaus*dvolu);
 end 
